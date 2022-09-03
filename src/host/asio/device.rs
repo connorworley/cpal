@@ -6,16 +6,19 @@ use super::parking_lot::Mutex;
 use super::sys;
 use std::hash::{Hash, Hasher};
 use std::sync::Arc;
-use BackendSpecificError;
-use DefaultStreamConfigError;
-use DeviceNameError;
-use DevicesError;
-use SampleFormat;
-use SampleRate;
-use SupportedBufferSize;
-use SupportedStreamConfig;
-use SupportedStreamConfigRange;
-use SupportedStreamConfigsError;
+use crate::{
+    BackendSpecificError,
+    DefaultStreamConfigError,
+    DeviceNameError,
+    DevicesError,
+    SampleFormat,
+    SampleRate,
+    SupportedBufferSize,
+    SupportedStreamConfig,
+    SupportedStreamConfigRange,
+    SupportedStreamConfigsError,
+    COMMON_SAMPLE_RATES,
+};
 
 /// A ASIO Device
 pub struct Device {
@@ -68,7 +71,7 @@ impl Device {
 
         // Collect a config for every combination of supported sample rate and number of channels.
         let mut supported_configs = vec![];
-        for &rate in ::COMMON_SAMPLE_RATES {
+        for &rate in COMMON_SAMPLE_RATES {
             if !self
                 .driver
                 .can_sample_rate(rate.0.into())
@@ -105,7 +108,7 @@ impl Device {
 
         // Collect a config for every combination of supported sample rate and number of channels.
         let mut supported_configs = vec![];
-        for &rate in ::COMMON_SAMPLE_RATES {
+        for &rate in COMMON_SAMPLE_RATES {
             if !self
                 .driver
                 .can_sample_rate(rate.0.into())
